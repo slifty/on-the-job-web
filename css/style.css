@@ -1,0 +1,105 @@
+body {
+	font-family: arial;
+	text-align: center;
+	background: #ecf0f1;
+}
+
+#container {
+	max-width: 800px;
+	margin: auto;
+}
+
+#header {
+	text-align: center;
+	font-family: 'Indie Flower', cursive;
+}
+
+#content {
+	max-width: 400px;
+	margin: auto;
+}
+
+.start {
+	background: #2ecc71;
+	color: #fff;
+	padding: 5px;
+	width: 80%;
+	margin: 20px auto;
+	text-align: center;
+	font-family: arial;
+	cursor: pointer;
+}
+
+.next {
+	background: #e67e22;
+	color: #fff;
+	padding: 5px;
+	width: 80%;
+	margin: 20px auto;
+	text-align: center;
+	font-family: arial;
+	cursor: pointer;
+}
+
+.button {
+	background: #3498db;
+	color: #fff;
+	padding: 5px;
+	width: 80%;
+	margin: 20px auto;
+	text-align: center;
+	cursor: pointer;
+}
+
+#main {
+	text-align: center;
+}
+
+
+#income-instruction {
+	text-align: center;
+}
+
+#income-input {
+	display: block;
+	padding: 5px;
+	width: 60px;
+	margin: 30px auto;
+}
+
+#timer-container {
+	height: 100px;
+}
+
+#timer-clock {
+	font-size: 14px;
+	text-align: center;
+	color: #999;
+	font-family: monospace;
+}
+#timer-pay {
+	font-size: 36px;
+	text-align: center;
+	color: #666;
+	font-family: monospace;
+}
+
+#stats ul {
+	list-style: none;
+}
+#stats ul li {
+	padding: 15px;
+}
+
+#stats .label {
+	display: inline-block;
+	width: 150px;
+	font-weight: bold;
+	text-align: left;
+}
+
+#stats .value {
+	display: inline-block;
+	width: 150px;
+	text-align: left;
+}

@@ -1,0 +1,249 @@
+<html>
+  <head>
+    <title>"On the Job"</title>
+    <link href='http://fonts.googleapis.com/css?family=Indie+Flower' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script src="js/lib/jquery.js"></script>
+    <script type="text/javascript">
+      $(function() {
+        // Look, don't judge me.
+
+        // hide the key elements
+        $("#main").hide();
+        $("#income").hide();
+        $("#timer").hide();
+        $("#congratulations").hide();
+        $("#stats").hide();
+
+        // Main screen
+        $("#main-welcome").hide();
+        $("#main-log").hide();
+
+        $("#main-welcome-next").click(function() {
+          $("#main-welcome").hide();
+          $("#main").hide();
+          $("#main-log").show();
+          $("#income").show();
+        });
+
+        $("#main-log-next").click(function() {
+          $("#main-log-next").hide();
+          $("#main").hide();
+          prepareSession();
+          $("#timer").show();
+        });
+
+        // Income Screen
+        var isHourly = false;
+        var isSalary = false;
+        var hourlyRate = 0;
+
+        $("#income-input").hide();
+        $("#income-save").hide();
+        $("#income-hourly").click(function(e) {
+          isHourly = true;
+          $("#income-hourly").hide();
+          $("#income-salary").hide();
+          $("#income-input").show();
+          $("#income-save").show();
+          $("#income-instruction").text("What is your hourly rate?");
+        })
+        $("#income-salary").click(function(e) {
+          isSalary = true;
+          $("#income-hourly").hide();
+          $("#income-salary").hide();
+          $("#income-input").show();
+          $("#income-save").show();
+          $("#income-instruction").text("What is your annual salary?");
+        })
+        $("#income-save").click(function(e) {
+          hourlyRate = $("#income-input").val();
+          if(isSalary)
+            hourlyRate = hourlyRate / 2080;
+          $("#income").hide();
+          $("#main").show();
+        });
+
+        // Timer Screen
+        var startTime = null;
+        var stopTime = null;
+        var timer = null;
+        var $timerClock = $("#timer-clock");
+        var $timerPay = $("#timer-pay");
+
+        function prepareSession() {
+          startTime = null;
+          stopTime = null;
+          timer = null;
+          $("#timer-start").show();
+          $("#timer-stop").hide();
+          $timerClock.text("");
+          $timerPay.text("");
+        }
+
+        function calculateIncome(mSeconds) {
+          return (hourlyRate * mSeconds / 1000 / 60 / 60).toFixed(2);
+        }
+
+        function calculateClock(mSeconds) {
+          var seconds = Math.round(mSeconds / 1000);
+          var minutes = Math.floor(seconds / 60);
+          var hours = Math.floor(minutes / 60);          
+          return hours + "h " + (minutes % 60) + "m " + (seconds % 60) + "s";
+        }
+
+        function redrawTimer() {
+          var now = new Date();
+          var mSeconds = (now - startTime);
+          var income = calculateIncome(mSeconds);
+          $timerClock.text(calculateClock(mSeconds));
+          $timerPay.text("$" + income);
+        }
+
+        $("#timer-start").click(function() {
+          $("#timer-start").hide();
+          $("#timer-stop").show();
+          startTime = new Date();
+          redrawTimer();
+          timer = setInterval(redrawTimer, 200);
+        })
+
+        $("#timer-stop").click(function() {
+          stopTime = new Date();
+          clearInterval(timer);
+          var duration = stopTime - startTime;
+
+          var session = {
+            duration: duration,
+            earnings: calculateIncome(duration)
+          }
+          sessions.push(session);
+          $("#congratulations-income").text(session.earnings);
+          $("#timer").hide();
+          $("#congratulations").show();
+        })
+
+        // Congratulations Screen
+        $("#congratulations-another").click(function(e) {
+          $("#congratulations").hide();
+          prepareSession();
+          $("#timer").show();
+        })
+
+        $("#congratulations-stats").click(function(e) {
+          $("#congratulations").hide();
+          renderStats();
+          $("#stats").show();
+        })
+
+        // Stats Screen
+        var sessions = [];
+        function renderStats() {
+          var totalEarnings = 0;
+          var totalDuration = 0;
+          var shortest = -1;
+          var longest = -1;
+          for(var x in sessions) {
+            var session = sessions[x];
+            totalEarnings += Number.parseFloat(session.earnings);
+            totalDuration += session.duration;
+            if(shortest == -1 || shortest > session.duration)
+              shortest = session.duration;
+            if(longest == -1 || longest < session.duration)
+              longest = session.duration;
+          }
+
+          $("#stats-sessions").text(sessions.length);
+          $("#stats-earnings").text("$" + totalEarnings);
+          $("#stats-duration").text(calculateClock(totalDuration));
+          $("#stats-shortest").text(calculateClock(shortest));
+          $("#stats-longest").text(calculateClock(longest));
+        }
+
+        $("#stats-another").click(function(e) {
+          $("#stats").hide();
+          prepareSession();
+          $("#timer").show();
+        });
+
+        // Kick things off
+        $("#main").show();
+        $("#main-welcome").show();
+
+      });
+
+    </script>
+  </head>
+  <body>
+    <div id="container">
+      <div id="header">
+        <h1 id="title">On the Job</h1>
+      </div>
+      <div id="content">
+
+        <div id="main">
+          <div id="main-welcome">
+            <p>Count your earnings on the ivory throne.</p>
+            <p>Get started by setting your income level.</p>
+            <div id="main-welcome-next" class="next">Next</div>
+          </div>
+          <div id="main-log">
+            <p>Ready to go?</p>
+            <div id="main-log-next" class="start">Start</div>
+          </div>
+        </div>
+
+        <div id="income">
+          <div id="income-instruction">How are you paid?</div>
+          <div id="income-hourly" class="button">Hourly</div>
+          <div id="income-salary" class="button">Salary</div>
+          <input id="income-input" type="text" />
+          <div id="income-save" class="next">Save</div>
+        </div>
+
+        <div id="timer">
+          <div id="timer-container">
+            <div id="timer-pay"></div>
+            <div id="timer-clock"></div>
+          </div>
+          <div id="timer-start" class="start">Start</div>
+          <div id="timer-stop" class="next">Stop</div>
+        </div>
+
+        <div id="congratulations">
+          <h2>Congratulations!</h2>
+          <p>You just earned $<span id="congratulations-income"></span> "on the job."</p>
+          <div id="congratulations-another" class="next">Need to go again?</div>
+          <div id="congratulations-stats" class="next">View your career statistics</div>
+        </div>
+        
+        <div id="stats">
+          <ul>
+            <li>
+              <div class="label">Total Sessions:</div>
+              <div id="stats-sessions" class="value"></div>
+            </li>
+            <li>
+              <div class="label">Total Earnings:</div>
+              <div id="stats-earnings" class="value"></div>
+            </li>
+            <li>
+              <div class="label">Total Duration:</div>
+              <div id="stats-duration" class="value"></div>
+            </li>
+            <li>
+              <div class="label">Longest Session:</div>
+              <div id="stats-longest" class="value"></div>
+            </li>
+            <li>
+              <div class="label">Shortest Session:</div>
+              <div id="stats-shortest" class="value"></div>
+            </li>
+          </ul>
+          <div id="stats-another" class="next">Log Another Session</div>
+        </div>
+      </div>
+      <div id="footer"></div>
+    </div>
+  </body>
+</html>
