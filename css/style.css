@@ -68,7 +68,7 @@ body {
 }
 
 #timer-container {
-	height: 100px;
+	height: 70px;
 }
 
 #timer-clock {
@@ -102,4 +102,8 @@ body {
 	display: inline-block;
 	width: 150px;
 	text-align: left;
+}
+
+#professionals {
+	width: 80%;
 }
