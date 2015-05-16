@@ -98,14 +98,14 @@ body {
 
 #stats .label {
 	display: inline-block;
-	width: 150px;
+	width: 140px;
 	font-weight: bold;
 	text-align: left;
 }
 
 #stats .value {
 	display: inline-block;
-	width: 70px;
+	width: 80px;
 	text-align: left;
 }
 
