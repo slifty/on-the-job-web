@@ -72,11 +72,10 @@
         var $timerPay = $("#timer-pay");
 
         function prepareSession() {
-          startTime = null;
           stopTime = null;
-          timer = null;
-          $("#timer-start").show();
-          $("#timer-stop").hide();
+          startTime = new Date();
+          redrawTimer();
+          timer = setInterval(redrawTimer, 200);
           $timerClock.text("");
           $timerPay.text("");
         }
@@ -99,14 +98,6 @@
           $timerClock.text(calculateClock(mSeconds));
           $timerPay.text("$" + income);
         }
-
-        $("#timer-start").click(function() {
-          $("#timer-start").hide();
-          $("#timer-stop").show();
-          startTime = new Date();
-          redrawTimer();
-          timer = setInterval(redrawTimer, 200);
-        })
 
         $("#timer-stop").click(function() {
           stopTime = new Date();
@@ -198,7 +189,7 @@
           <div id="income-hourly" class="button">Hourly</div>
           <div id="income-salary" class="button">Salary</div>
           <input id="income-input" type="text" />
-          <div id="income-save" class="next">Save</div>
+          <div id="income-save" class="button">Save</div>
         </div>
 
         <div id="timer">
@@ -206,14 +197,13 @@
             <div id="timer-pay"></div>
             <div id="timer-clock"></div>
           </div>
-          <div id="timer-start" class="start">Start</div>
-          <div id="timer-stop" class="next">Stop</div>
+          <div id="timer-stop" class="button">Stop</div>
         </div>
 
         <div id="congratulations">
           <h2>Congratulations!</h2>
           <p>You just earned $<span id="congratulations-income"></span> "on the job."</p>
-          <div id="congratulations-another" class="next">Need to go again?</div>
+          <div id="congratulations-another" class="start">Need to go again?</div>
           <div id="congratulations-stats" class="next">View your career statistics</div>
         </div>
         
@@ -240,7 +230,7 @@
               <div id="stats-shortest" class="value"></div>
             </li>
           </ul>
-          <div id="stats-another" class="next">Log Another Session</div>
+          <div id="stats-another" class="start">Log Another Session</div>
         </div>
       </div>
       <div id="footer"></div>
