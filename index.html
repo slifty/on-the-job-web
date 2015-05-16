@@ -104,13 +104,15 @@
           stopTime = new Date();
           clearInterval(timer);
           var duration = stopTime - startTime;
+          var income = calculateIncome(duration);
 
           var session = {
             duration: duration,
-            earnings: calculateIncome(duration)
+            earnings: income
           }
           sessions.push(session);
           $("#congratulations-income").text(session.earnings);
+          $("#congratulations-tweet").attr("href","https://twitter.com/share?url=http%3A%2F%2Ftimeonthejob.biz&text=I%20just%20earned%20%24" + income + "%20%22on%20the%20job%22%20%23talkpay");
           $("#timer").hide();
           $("#congratulations").show();
         })
@@ -204,6 +206,7 @@
         <div id="congratulations">
           <h2>Congratulations!</h2>
           <p>You just earned $<span id="congratulations-income"></span> "on the job."</p>
+          <a id="congratulations-tweet" class="button" target="_blank">Share the news.</a>
           <div id="congratulations-stats" class="next">View your career statistics</div>
           <img id="professionals" src="img/celebrate.jpg" />
         </div>

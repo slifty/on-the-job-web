@@ -42,6 +42,7 @@ body {
 }
 
 .button {
+	display: block;
 	background: #3498db;
 	color: #fff;
 	padding: 5px;
@@ -106,4 +107,8 @@ body {
 
 #professionals {
 	width: 80%;
+}
+
+#congratulations-tweet {
+	text-decoration: none;
 }
