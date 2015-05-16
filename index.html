@@ -139,7 +139,7 @@
           var longest = -1;
           for(var x in sessions) {
             var session = sessions[x];
-            totalEarnings += Number.parseFloat(session.earnings);
+            totalEarnings += parseFloat(session.earnings);
             totalDuration += session.duration;
             if(shortest == -1 || shortest > session.duration)
               shortest = session.duration;
@@ -206,7 +206,7 @@
         <div id="congratulations">
           <h2>Congratulations!</h2>
           <p>You just earned $<span id="congratulations-income"></span> "on the job."</p>
-          <a id="congratulations-tweet" class="button" target="_blank">Share the news</a>
+          <a id="congratulations-tweet" class="start" target="_blank">Share the news</a>
           <div id="congratulations-stats" class="next">View your career statistics</div>
           <img id="professionals" src="img/celebrate.jpg" />
         </div>

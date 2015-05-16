@@ -20,6 +20,7 @@ body {
 }
 
 .start {
+	display: block;
 	background: #2ecc71;
 	color: #fff;
 	padding: 5px;
@@ -31,6 +32,7 @@ body {
 }
 
 .next {
+	display: block;
 	background: #3498db;
 	color: #fff;
 	padding: 5px;
